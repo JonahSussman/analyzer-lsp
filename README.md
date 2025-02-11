@@ -40,7 +40,7 @@ CLI Options:
 
 ```sh
 Flags:
-      --analysis-mode string        select one of full or source-only to tell the providers what to analyize. This can be given on a per provider setting, but this flag will override
+      --analysis-mode string        select one of full or source-only to tell the providers what to analyze. This can be given on a per provider setting, but this flag will override
       --context-lines int           When violation occurs, A part of source code is added to the output, So this flag configures the number of source code lines to be printed to the output. (default 10)
       --dep-label-selector string   an expression to select dependencies based on labels. This will filter out the violations from these dependencies as well these dependencies when matching dependency conditions
       --enable-jaeger               enable tracer exports to jaeger endpoint (default true)
@@ -61,7 +61,7 @@ Flags:
 
 ## Code Base Starting Point
 
-Using the LSP/Protocal from Golang https://github.com/golang/tools/tree/master/gopls/internal/lsp/protocol and stripping out anything related to serving, proxy or anything. Just keeping the types for communication
+Using the LSP/Protocol from Golang https://github.com/golang/tools/tree/master/gopls/internal/lsp/protocol and stripping out anything related to serving, proxy or anything. Just keeping the types for communication
 
 Using JSONRPC2 from google.org/x/tools/internal. Copied and removed anything to do with serving.
 

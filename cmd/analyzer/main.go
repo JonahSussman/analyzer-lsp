@@ -167,7 +167,8 @@ func AnalysisCmd() *cobra.Command {
 				for _, ind := range config.InitConfig {
 					providerLocations = append(providerLocations, ind.Location)
 				}
-				// IF analsyis mode is set from the CLI, then we will override this for each init config
+				// If analysis mode is set from the CLI, then we will override
+				// this for each init config
 				if analysisMode != "" {
 					inits := []provider.InitConfig{}
 					for _, i := range config.InitConfig {
@@ -206,7 +207,7 @@ func AnalysisCmd() *cobra.Command {
 				sc := createOpenAPISchema(providers, log)
 				b, err := json.Marshal(sc)
 				if err != nil {
-					errLog.Error(err, "unable to create inital schema")
+					errLog.Error(err, "unable to create initial schema")
 					os.Exit(1)
 				}
 
@@ -319,7 +320,7 @@ func AnalysisCmd() *cobra.Command {
 	rootCmd.Flags().StringVar(&jaegerEndpoint, "jaeger-endpoint", "http://localhost:14268/api/traces", "jaeger endpoint to collect tracing data")
 	rootCmd.Flags().IntVar(&limitIncidents, "limit-incidents", 1500, "Set this to the limit incidents that a given rule can give, zero means no limit")
 	rootCmd.Flags().IntVar(&limitCodeSnips, "limit-code-snips", 20, "limit the number code snippets that are retrieved for a file while evaluating a rule, 0 means no limit")
-	rootCmd.Flags().StringVar(&analysisMode, "analysis-mode", "", "select one of full or source-only to tell the providers what to analyize. This can be given on a per provider setting, but this flag will override")
+	rootCmd.Flags().StringVar(&analysisMode, "analysis-mode", "", "select one of full or source-only to tell the providers what to analyze. This can be given on a per provider setting, but this flag will override")
 	rootCmd.Flags().BoolVar(&noDependencyRules, "no-dependency-rules", false, "Disable dependency analysis rules")
 	rootCmd.Flags().IntVar(&contextLines, "context-lines", 10, "When violation occurs, A part of source code is added to the output, So this flag configures the number of source code lines to be printed to the output.")
 	rootCmd.Flags().StringVar(&getOpenAPISpec, "get-openapi-spec", "", "Get the openAPI spec for the rulesets, rules and provider capabilities and put in file passed in.")
@@ -364,7 +365,7 @@ func createOpenAPISchema(providers map[string]provider.InternalProviderClient, l
 	// in the future loop and build the openapi spec here:
 	spec, err := parser.CreateSchema()
 	if err != nil {
-		log.Error(err, "unable to create inital schema")
+		log.Error(err, "unable to create initial schema")
 		os.Exit(1)
 	}
 

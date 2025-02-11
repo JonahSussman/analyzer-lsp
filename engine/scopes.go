@@ -11,8 +11,9 @@ import (
 
 const TemplateContextPathScopeKey = "konveyor.io/path-scope"
 
-// Scopes apply to individual calls to the providers and will add inforamtion to the ConditionContext
-// To apply the scope. It is the responsiblity of the provider to use these correctly.
+// Scopes apply to individual calls to the providers and will add information to
+// the ConditionContext To apply the scope. It is the responsibility of the
+// provider to use these correctly.
 type Scope interface {
 	Name() string
 	// For now this is the only place that we are considering adding a scope
@@ -116,7 +117,7 @@ func IncludedPathsScope(paths []string, log logr.Logger) Scope {
 
 type excludedPathsScope struct {
 	paths []string
-	log logr.Logger
+	log   logr.Logger
 }
 
 var _ Scope = &excludedPathsScope{}
@@ -158,6 +159,6 @@ func (e *excludedPathsScope) FilterResponse(response IncidentContext) bool {
 func ExcludedPathsScope(paths []string, log logr.Logger) Scope {
 	return &excludedPathsScope{
 		paths: paths,
-		log: log.WithName("excludedPathScope"),
+		log:   log.WithName("excludedPathScope"),
 	}
 }

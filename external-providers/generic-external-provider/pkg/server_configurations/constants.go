@@ -7,6 +7,7 @@ import (
 	"github.com/konveyor/analyzer-lsp/external-providers/generic-external-provider/pkg/server_configurations/generic"
 	"github.com/konveyor/analyzer-lsp/external-providers/generic-external-provider/pkg/server_configurations/nodejs"
 	"github.com/konveyor/analyzer-lsp/external-providers/generic-external-provider/pkg/server_configurations/pylsp"
+	"github.com/konveyor/analyzer-lsp/external-providers/generic-external-provider/pkg/server_configurations/tree_sitter"
 	yaml "github.com/konveyor/analyzer-lsp/external-providers/generic-external-provider/pkg/server_configurations/yaml_language_server"
 	base "github.com/konveyor/analyzer-lsp/lsp/base_service_client"
 	"github.com/konveyor/analyzer-lsp/provider"
@@ -23,4 +24,5 @@ var SupportedLanguages = map[string]ServiceClientBuilder{
 	"pylsp":                &pylsp.PythonServiceClientBuilder{},
 	"yaml_language_server": &yaml.YamlServiceClientBuilder{},
 	"nodejs":               &nodejs.NodeServiceClientBuilder{},
+	"tree_sitter":          &tree_sitter.TreeSitterServiceClientBuilder{},
 }

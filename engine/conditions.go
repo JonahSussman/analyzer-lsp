@@ -167,7 +167,7 @@ func (a AndCondition) Evaluate(ctx context.Context, log logr.Logger, condCtx Con
 	conditions := sortConditionEntries(a.Conditions)
 	for _, c := range conditions {
 		if _, ok := condCtx.Template[c.From]; !ok && c.From != "" {
-			// Short circut w/ error here
+			// Short circuit w/ error here
 			// TODO: determine if this is the right thing, I am assume the full rule should fail here
 			return ConditionResponse{}, fmt.Errorf("unable to find context value: %v", c.From)
 		}
@@ -211,10 +211,10 @@ func (o OrCondition) Evaluate(ctx context.Context, log logr.Logger, condCtx Cond
 	defer span.End()
 
 	if len(o.Conditions) == 0 {
-		return ConditionResponse{}, fmt.Errorf("conditions must not be empty while evaluationg")
+		return ConditionResponse{}, fmt.Errorf("conditions must not be empty while evaluating")
 	}
 
-	// We need to append template context, and not short circut.
+	// We need to append template context, and not short circuit.
 	fullResponse := ConditionResponse{
 		Matched:         false,
 		Incidents:       []IncidentContext{},
@@ -223,7 +223,7 @@ func (o OrCondition) Evaluate(ctx context.Context, log logr.Logger, condCtx Cond
 	conditions := sortConditionEntries(o.Conditions)
 	for _, c := range conditions {
 		if _, ok := condCtx.Template[c.From]; !ok && c.From != "" {
-			// Short circut w/ error here
+			// Short circuit w/ error here
 			// TODO: determine if this is the right thing, I am assume the full rule should fail here
 			return ConditionResponse{}, fmt.Errorf("unable to find context value: %v", c.From)
 		}

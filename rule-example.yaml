@@ -58,7 +58,7 @@
   ruleID: lang-ref-002
   effort: 1
   when:
-    # This is purposfully failing, the golang reference will not
+    # This is purposefully failing, the golang reference will not
     # find anything. testing that `and` will work correctly
     and:
     - go.referenced:

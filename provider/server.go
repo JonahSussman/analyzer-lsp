@@ -59,7 +59,7 @@ type clientMapItem struct {
 }
 
 // Provider GRPC Service
-// TOOD: HANDLE INIT CONFIG CHANGES
+// TODO: Handle init config changes
 func NewServer(client BaseClient, port int, certPath string, keyPath string, secretKey string, logger logr.Logger) Server {
 	s := rand.NewSource(time.Now().Unix())
 
@@ -138,7 +138,7 @@ func (s *server) Start(ctx context.Context) error {
 
 func (s *server) GetDependencyLocation(ctx context.Context, req *libgrpc.GetDependencyLocationRequest) (*libgrpc.GetDependencyLocationResponse, error) {
 	if s.DepLocationResolver == nil {
-		return nil, fmt.Errorf("Provider does not provide Dependency Location Resolution")
+		return nil, fmt.Errorf("provider does not provide Dependency Location Resolution")
 	}
 	res, err := s.DepLocationResolver.GetLocation(ctx, konveyor.Dep{
 		Name:               req.Dep.Name,
@@ -171,7 +171,7 @@ func (s *server) GetDependencyLocation(ctx context.Context, req *libgrpc.GetDepe
 
 func (s *server) GetCodeSnip(ctx context.Context, req *libgrpc.GetCodeSnipRequest) (*libgrpc.GetCodeSnipResponse, error) {
 	if s.CodeSnipeResolver == nil {
-		return nil, fmt.Errorf("Provider does not provide Code Snippet Resolution")
+		return nil, fmt.Errorf("provider does not provide Code Snippet Resolution")
 	}
 	if req.CodeLocation == nil {
 		return nil, nil

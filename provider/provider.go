@@ -25,9 +25,11 @@ import (
 )
 
 const (
-	// Dep source label is a label key that any provider can use, to label the dependencies as coming from a particular source.
-	// Examples from java are: open-source and internal. A provider can also have a user provide file that will tell them which
-	// depdendencies to label as this value. This label will be used to filter out these dependencies from a given analysis
+	// Dep source label is a label key that any provider can use, to label the
+	// dependencies as coming from a particular source. Examples from java are:
+	// open-source and internal. A provider can also have a user provide file
+	// that will tell them which dependencies to label as this value. This label
+	// will be used to filter out these dependencies from a given analysis
 	DepSourceLabel   = "konveyor.io/dep-source"
 	DepLanguageLabel = "konveyor.io/language"
 	DepExcludeLabel  = "konveyor.io/exclude"
@@ -117,7 +119,7 @@ const (
 
 type InitConfig struct {
 	// This is the location of the code base that the
-	// Provider will be responisble for parsing
+	// Provider will be responsible for parsing
 	// TODO: rootUri, which is what this maps to in the LSP spec, is deprecated.
 	// We should instead use workspaceFolders.
 	Location string `yaml:"location,omitempty" json:"location,omitempty"`
@@ -127,13 +129,13 @@ type InitConfig struct {
 	// TODO: This only allows for one directory for dependencies. Use DependencyFolders instead
 	DependencyPath string `yaml:"dependencyPath,omitempty" json:"dependencyPath,omitempty"`
 
-	// It would be nice to get workspacefolders working
+	// It would be nice to get workspaceFolders working
 
 	// // The folders for the workspace. Maps to workspaceFolders in the LSP spec
 	// WorkspaceFolders []string `yaml:"workspaceFolders,omitempty" json:"workspaceFolders,omitempty"`
 
 	// // The folders for the dependencies. Also maps to workspaceFolders in the LSP
-	// // spec. These folders will not be inlcuded in search results for things like
+	// // spec. These folders will not be included in search results for things like
 	// // 'referenced'.
 	// DependencyFolders []string `yaml:"dependencyFolders,omitempty" json:"dependencyFolders,omitempty"`
 
@@ -606,7 +608,7 @@ func matchDepLabelSelector(s *labels.LabelSelector[*Dep], inc IncidentContext, d
 }
 
 func templateCondition(condition []byte, ctx map[string]engine.ChainTemplate) ([]byte, error) {
-	//TODO(shanw-hurley):
+	//TODO(shawn-hurley):
 	// this is needed because for the initial yaml read, we convert this to a string,
 	// then when it is used here, we need the value to be whatever is in the context and not
 	// a string nested in the type.
@@ -859,7 +861,7 @@ func deduplicateDependencies(dependencies map[uri.URI][]*Dep) map[uri.URI][]*Dep
 					continue
 				}
 			} else {
-				// We haven't seen this before and need to update the dedup
+				// We haven't seen this before and need to update the deduped
 				// list and mark that we've seen it
 				deduped[uri] = append(deduped[uri], dep)
 				if dep.Indirect {

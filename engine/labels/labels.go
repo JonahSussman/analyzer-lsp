@@ -11,7 +11,7 @@ import (
 )
 
 const (
-	// a selector label takes precedance over any other label when matching
+	// a selector label takes precedence over any other label when matching
 	RuleIncludeLabel = "konveyor.io/include"
 	SelectAlways     = "always"
 	SelectNever      = "never"

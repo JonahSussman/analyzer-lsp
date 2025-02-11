@@ -362,7 +362,7 @@ func (r *ruleEngine) runTaggingRules(ctx context.Context, infoRules []ruleMessag
 			for _, tagString := range rule.Perform.Tag {
 				if strings.Contains(tagString, "{{") && strings.Contains(tagString, "}}") {
 					for _, incident := range response.Incidents {
-						// If this is the case then we neeed to use the reponse variables to get the tag
+						// If this is the case then we need to use the response variables to get the tag
 						variables := make(map[string]interface{})
 						for key, value := range incident.Variables {
 							variables[key] = value
@@ -550,7 +550,7 @@ func (r *ruleEngine) createViolation(ctx context.Context, conditionResponse Cond
 			for scanner.Scan() {
 				if incident.LineNumber != nil && strings.HasPrefix(strings.TrimSpace(scanner.Text()), fmt.Sprintf("%v", *incident.LineNumber)) {
 					originalCodeSnip = strings.TrimSpace(re.ReplaceAllString(scanner.Text(), "$2"))
-					r.logger.V(5).Info("found originalCodeSnip", "lineNuber", incident.LineNumber, "original", originalCodeSnip)
+					r.logger.V(5).Info("found originalCodeSnip", "lineNumber", incident.LineNumber, "original", originalCodeSnip)
 					break
 				}
 			}
@@ -598,12 +598,12 @@ func (r *ruleEngine) createViolation(ctx context.Context, conditionResponse Cond
 			incidentLineNumber = *incident.LineNumber
 		}
 
-		// Deterime if we can filter out based on incident selector.
+		// Determine if we can filter out based on incident selector.
 		if r.incidentSelector != "" {
 			v := internal.VariableLabelSelector(incident.Variables)
 			b, err := incidentSelector.Matches(v)
 			if err != nil {
-				r.logger.Error(err, "unable to determine if incident should filter out, defautl to adding")
+				r.logger.Error(err, "unable to determine if incident should filter out, default to adding")
 			}
 			if !b {
 				r.logger.V(8).Info("filtering out incident based on incident selector")

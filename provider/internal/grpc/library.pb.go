@@ -1874,7 +1874,7 @@ var file_provider_internal_grpc_library_proto_depIdxs = []int32{
 	32, // [32:40] is the sub-list for method output_type
 	24, // [24:32] is the sub-list for method input_type
 	24, // [24:24] is the sub-list for extension type_name
-	24, // [24:24] is the sub-list for extension extendee
+	24, // [24:24] is the sub-list for extension extended
 	0,  // [0:24] is the sub-list for field type_name
 }
 
