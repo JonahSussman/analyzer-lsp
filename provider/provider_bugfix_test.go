@@ -128,25 +128,31 @@ func TestValidateUpdateInternalProviderConfig_NestedMap(t *testing.T) {
 }
 
 // Inlined copy of the old buggy validation to show the failure.
+// The shadowed "new" causes new[s] = new to create a circular reference
+// in the local map, while the outer map never gets the nested key at all.
 func TestValidateUpdateInternalProviderConfig_OldBuggyBehavior(t *testing.T) {
-	buggyValidate := func(old map[interface{}]interface{}) (map[string]interface{}, error) {
+	// Returns both the outer result and the local map from the shadowed scope
+	// so we can inspect the circular reference.
+	buggyValidate := func(old map[interface{}]interface{}) (map[string]interface{}, map[string]interface{}, error) {
+		var captured map[string]interface{}
 		new := map[string]interface{}{}
 		for k, v := range old {
 			s, ok := k.(string)
 			if !ok {
-				return nil, fmt.Errorf("key is not a string")
+				return nil, nil, fmt.Errorf("key is not a string")
 			}
 			if o, ok := v.(map[interface{}]interface{}); ok {
 				new, err := buggyValidateHelper(o) // shadows outer "new"
 				if err != nil {
-					return nil, err
+					return nil, nil, err
 				}
 				new[s] = new // assigns local map to itself, outer map never updated
+				captured = new
 				continue
 			}
 			new[s] = v
 		}
-		return new, nil
+		return new, captured, nil
 	}
 
 	input := map[interface{}]interface{}{
@@ -157,13 +163,40 @@ func TestValidateUpdateInternalProviderConfig_OldBuggyBehavior(t *testing.T) {
 		},
 	}
 
-	result, err := buggyValidate(input)
+	result, localMap, err := buggyValidate(input)
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
 
+	// The outer map never got the "database" key
 	if _, ok := result["database"]; ok {
-		t.Error("expected buggy code to drop 'database' key")
+		t.Error("expected buggy code to drop 'database' key from outer map")
+	}
+
+	// The local map contains a circular self-reference: localMap["database"] == localMap
+	self, ok := localMap["database"]
+	if !ok {
+		t.Fatal("expected local map to contain 'database' key from self-assignment")
+	}
+	selfMap, ok := self.(map[string]interface{})
+	if !ok {
+		t.Fatalf("expected 'database' value to be map[string]interface{}, got %T", self)
+	}
+
+	// Walk one level deeper — it should point right back to itself
+	deeper, ok := selfMap["database"]
+	if !ok {
+		t.Fatal("expected circular reference: selfMap[\"database\"] should exist")
+	}
+	deeperMap, ok := deeper.(map[string]interface{})
+	if !ok {
+		t.Fatalf("expected nested 'database' to be map[string]interface{}, got %T", deeper)
+	}
+
+	// Confirm it's the same map by checking pointer identity via another mutation
+	deeperMap["_sentinel"] = true
+	if localMap["_sentinel"] != true {
+		t.Error("expected circular reference: deeperMap and localMap should be the same map")
 	}
 }
 
